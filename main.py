@@ -5,7 +5,7 @@ import sys
 import markdown2
 
 from PySide.QtCore import QUrl
-from PySide.QtGui import QApplication, QGridLayout, QLineEdit, QPushButton, QWidget, QTextEdit, QMainWindow, QMenu, QMenuBar, QAction, QFileDialog, QHBoxLayout
+from PySide.QtGui import QApplication, QGridLayout, QLineEdit, QPushButton, QWidget, QTextEdit, QMainWindow, QMenu, QMenuBar, QAction, QFileDialog, QHBoxLayout, QSplitter
 from PySide.QtWebKit import QWebView
 
 
@@ -61,25 +61,13 @@ class App(QMainWindow):
         self.webPreview.setHtml('Start typing...', baseUrl=QUrl('preview'))
         
         self.txtInput.textChanged.connect(self.loadPreview)
-        self.txtInput.setMinimumHeight(400)
-        self.txtInput.setMinimumWidth(400)
         
+        splitter = QSplitter()
+        splitter.addWidget(self.txtInput)
+        splitter.addWidget(self.webPreview)
 
 
-        widget = QWidget()
-        
-        self.mainLayout = QGridLayout()
-        
-        hboxLayout = QHBoxLayout()
-        hboxLayout.addWidget(self.txtInput)
-        hboxLayout.addWidget(self.webPreview)
-        
-        self.mainLayout.addWidget(self.txtInput)
-        self.mainLayout.addWidget(self.webPreview)
-        
-
-        widget.setLayout(hboxLayout)
-        self.setCentralWidget(widget)
+        self.setCentralWidget(splitter)
         
 
     def loadPreview(self):
